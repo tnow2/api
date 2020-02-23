@@ -2,8 +2,6 @@ import requests
 import random
 import endpoints
 
-base_url = 'http://18.184.234.77:8080'
-
 
 def test_add_numbers():
     first_number, second_number = random.randint(1, 1000), random.randint(1, 1000)
