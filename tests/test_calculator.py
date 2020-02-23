@@ -1,5 +1,6 @@
 import requests
 import random
+import endpoints
 
 base_url = 'http://18.184.234.77:8080'
 
@@ -11,9 +12,9 @@ def test_add_numbers():
         "firstNumber": first_number,
         "secondNumber": second_number
     }
-    add_numbers_response = requests.post(f'{base_url}/add', json=body)
+    add_numbers_response = requests.post(endpoints.calculator_add, json=body)
     assert add_numbers_response.status_code == 200
 
-    result_dict = add_numbers_response.json()['result']
+    result_dict = add_numbers_response.json()
     actual_result = result_dict['result']
     assert actual_result == expected_result
