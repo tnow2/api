@@ -1,12 +1,12 @@
+import pytest
 import requests
 import endpoints
 from faker import Faker
+
 fake = Faker()
 
 
-def test_get_accounts_list():
-    expected_name = _create_account()
-
+def test_get_accounts_list(account_name):
     response = requests.get(endpoints.accounts)
     assert response.status_code == 200
 
@@ -14,19 +14,28 @@ def test_get_accounts_list():
     accounts_list = response_dict['accounts']
     names_list = [a['name'] for a in accounts_list]
     print(names_list)
-    assert expected_name in names_list
+    assert account_name in names_list
 
 
-def test_create_account():
-    expected_name = _create_account()
-
-    list_params = {'account': expected_name}
+def test_create_account(account_name):
+    list_params = {'account': account_name}
     filtered_list_response = requests.get(endpoints.accounts, params=list_params)
     assert filtered_list_response.status_code == 200
-    assert expected_name in filtered_list_response.text
+    assert account_name in filtered_list_response.text
 
 
-def _create_account():
+def test_delete_account(account_name):
+    account_params = {'account': account_name}
+
+    delete_response = requests.delete(endpoints.accounts_delete, params=account_params)
+    assert delete_response.status_code == 200
+
+    filtered_list_response = requests.get(endpoints.accounts, params=account_params)
+    assert filtered_list_response.status_code == 404
+
+
+@pytest.fixture()
+def account_name():
     random_name = fake.uuid4()
     body = {
         "name": random_name
