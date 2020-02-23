@@ -1,10 +1,18 @@
 import requests
-base_url = 'http://18.184.234.77:8080'
+import endpoints
 
 
 def test_ping():
-
-    pong_response = requests.get(f'{base_url}/ping')
+    pong_response = requests.get(endpoints.ping)
     assert pong_response.status_code == 200
-
     assert pong_response.text == 'pong'
+
+
+def test_ping_as_json():
+    headers_dict = {
+        'Accept': 'application/json'
+    }
+    pong_response = requests.get(endpoints.ping, headers=headers_dict)
+    assert pong_response.status_code == 200
+    response_dict = pong_response.json()
+    assert response_dict['reply'] == 'pong!'
