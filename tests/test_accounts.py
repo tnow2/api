@@ -34,6 +34,11 @@ def test_delete_account(new_account):
     assert filtered_list_response.status_code == 404
 
 
+def test_account_balance(new_account):
+    assert new_account.get_balance() == 1000
+
+
+
 @pytest.fixture()
 def new_account():
     account = Account()
