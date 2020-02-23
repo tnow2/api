@@ -5,6 +5,8 @@ fake = Faker()
 
 
 def test_get_accounts_list():
+    expected_name = _create_account()
+
     response = requests.get(endpoints.accounts)
     assert response.status_code == 200
 
@@ -12,7 +14,7 @@ def test_get_accounts_list():
     accounts_list = response_dict['accounts']
     names_list = [a['name'] for a in accounts_list]
     print(names_list)
-    assert 'Łukasz' in names_list
+    assert expected_name in names_list
 
 
 def test_create_account():
