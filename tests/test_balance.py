@@ -16,7 +16,7 @@ def test_create_account(account_name):
 def test_balance(account_name):
     list_params = {'account': account_name}
     filtered_list_response = requests.get(endpoints.accounts, params=list_params)
-    assert filtered_list_response.json()['accounts'][0]['balance']['accountBalance']
+    assert filtered_list_response.json()['accounts'][0]['balance']['accountBalance'] == 1000
 
 
 @pytest.fixture()
